@@ -2498,9 +2498,10 @@ Function K_append_curve()
 				ModifyGraph mode($cwys)=0,lsize($cwys)=1.2
 				ModifyGraph mode($cwzs)=0,lsize($cwzs)=1.2
 			endif
-			ModifyGraph rgb($cwxs)=(cr,cg,cb)
-			ModifyGraph rgb($cwys)=(cr,cg,cb)
-			ModifyGraph rgb($cwzs)=(cr,cg,cb)
+			
+			ModifyGraph/W=$hlws rgb($cwxs)=(cr,cg,cb)
+			ModifyGraph/W=$hlws rgb($cwys)=(cr,cg,cb)
+			ModifyGraph/W=$hlws rgb($cwzs)=(cr,cg,cb)
 		endif
 		
 	endif
@@ -2510,6 +2511,8 @@ EndMacro
 
 Function K_select_crosssection()
 	string nf=GetDataFolder(1)
+	SetDataFolder root:K_ARPES:global
+	wave clw=$("color_list")
 	SetDataFolder root:K_ARPES:misc
 	string/g s_winname
 	string winn=s_winname
@@ -2576,6 +2579,7 @@ Function K_select_crosssection()
 				else
 					ModifyGraph /W=$winn mode($(trs+"kx"))=3,marker($(trs+"kx"))=42
 				endif
+				ModifyGraph /W=$winn rgb($(trs+"kx"))=(clw[mod(i,10)][0],clw[mod(i,10)][1],clw[mod(i,10)][2])
 			endif
 			if(vy==1)
 				AppendToGraph/W=$winn/L=yz_y/B=yz_z $(trs+"ky") vs $(trs+"kz")
@@ -2584,6 +2588,7 @@ Function K_select_crosssection()
 				else
 					ModifyGraph /W=$winn mode($(trs+"ky"))=3,marker($(trs+"ky"))=42
 				endif
+				ModifyGraph /W=$winn rgb($(trs+"ky"))=(clw[mod(i,10)][0],clw[mod(i,10)][1],clw[mod(i,10)][2])
 			endif
 			if(vz==1)
 				AppendToGraph/W=$winn/R=xz_z/B=xz_x $(trs+"kz") vs $(trs+"kx")
@@ -2592,6 +2597,7 @@ Function K_select_crosssection()
 				else
 					ModifyGraph /W=$winn mode($(trs+"kz"))=3,marker($(trs+"kz"))=42
 				endif
+				ModifyGraph /W=$winn rgb($(trs+"kz"))=(clw[mod(i,10)][0],clw[mod(i,10)][1],clw[mod(i,10)][2])
 			endif
 			i+=1
 		while(1)
@@ -3875,11 +3881,6 @@ Function K_kconv_calc(tws,vol,e,k1_n,k2_n,krange_f)
 			k2_s=krw[0][2]
 			k2_e=krw[1][2]
 		endif
-		
-		k1_s=-0.3
-		k2_s=-0.3
-		k1_e=0.3
-		k2_e=0.3
 		
 		k1_st=(k1_e-k1_s)/(k1_n-1)
 		k2_st=(k2_e-k2_s)/(k2_n-1)
@@ -6027,11 +6028,7 @@ Function K_ButtonProc_go(ba) : ButtonControl
 					SetDataFolder root:K_ARPES:misc
 					variable/g v_map=0
 					variable/g v_app=0
-					SetDataFolder root:K_ARPES:global
-//					if(Exists(winn))
-//						KillWaves $winn
-//					endif
-					SetDataFolder $nf
+					
 					if(WinType(winn)==1)
 						KillWindow $winn
 					endif
