@@ -1972,12 +1972,13 @@ Function K_make_window()
 	SetDataFolder root:K_ARPES:misc
 	string/g s_winname
 	string winn=s_winname
+	make/O/N=(0,3) $("curves")
 	
 	SetDataFolder root:K_ARPES:Curves
 	if(DataFolderExists(winn))
 		KillDataFolder $winn
 	endif
-	NewDataFolder/O/S $winn
+	NewDataFolder/O $winn
 	SetDataFolder $nf
 	K_winlist()
 End
@@ -2414,8 +2415,6 @@ Function K_append_curve()
 	
 	SetDataFolder root:K_ARPES:global
 	
-	wave hlw=$hlws
-	variable nown=Dimsize(hlw,0)
 	string clws="color_list"
 	wave clw=$clws
 	
@@ -2430,6 +2429,7 @@ Function K_append_curve()
 	variable wpx=winp[0]
 	variable wpy=winp[1]
 	variable cr,cb,cg
+	wave cvsw=$("curves")
 	
 	if(map==0)
 		cr=clw[mod(cn,10)][0]
@@ -2504,7 +2504,15 @@ Function K_append_curve()
 			ModifyGraph/W=$hlws rgb($cwzs)=(cr,cg,cb)
 		endif
 		
+		variable s=DimSize(cvsw,0)
+		InsertPoints s,1,cvsw
+		cvsw[s][0]=cr
+		cvsw[s][1]=cg
+		cvsw[s][2]=cb
+		
 	endif
+	
+	
 	
 	SetDataFolder $fldrSav0
 EndMacro
@@ -2516,6 +2524,7 @@ Function K_select_crosssection()
 	SetDataFolder root:K_ARPES:misc
 	string/g s_winname
 	string winn=s_winname
+	wave cvsw=$("curves")
 	
 	variable/g v_cross_z
 	variable/g v_cross_y
@@ -2524,7 +2533,7 @@ Function K_select_crosssection()
 	variable vy=v_cross_y
 	variable vx=v_cross_x
 	
-	variable i
+	variable i,cr,cg,cb
 	string trl,trs,trlx="",trly="",trlz=""
 	if(WinType(winn)!=0)
 		SetDataFolder root:K_ARPES:Curves:$winn
@@ -2571,6 +2580,11 @@ Function K_select_crosssection()
 			if(!StrLen(trs)>0)
 				break
 			endif
+			
+			cr=cvsw[i][0]
+			cg=cvsw[i][1]
+			cb=cvsw[i][2]
+			
 			trs=ReplaceString("kx",trs,"")
 			if(vx==1)
 				AppendToGraph/W=$winn/L=xy_y/B=xy_x/VERT $(trs+"kx") vs $(trs+"ky")
@@ -2579,7 +2593,7 @@ Function K_select_crosssection()
 				else
 					ModifyGraph /W=$winn mode($(trs+"kx"))=3,marker($(trs+"kx"))=42
 				endif
-				ModifyGraph /W=$winn rgb($(trs+"kx"))=(clw[mod(i,10)][0],clw[mod(i,10)][1],clw[mod(i,10)][2])
+				ModifyGraph /W=$winn rgb($(trs+"kx"))=(cr,cg,cb)
 			endif
 			if(vy==1)
 				AppendToGraph/W=$winn/L=yz_y/B=yz_z $(trs+"ky") vs $(trs+"kz")
@@ -2588,7 +2602,7 @@ Function K_select_crosssection()
 				else
 					ModifyGraph /W=$winn mode($(trs+"ky"))=3,marker($(trs+"ky"))=42
 				endif
-				ModifyGraph /W=$winn rgb($(trs+"ky"))=(clw[mod(i,10)][0],clw[mod(i,10)][1],clw[mod(i,10)][2])
+				ModifyGraph /W=$winn rgb($(trs+"ky"))=(cr,cg,cb)
 			endif
 			if(vz==1)
 				AppendToGraph/W=$winn/R=xz_z/B=xz_x $(trs+"kz") vs $(trs+"kx")
@@ -2597,7 +2611,7 @@ Function K_select_crosssection()
 				else
 					ModifyGraph /W=$winn mode($(trs+"kz"))=3,marker($(trs+"kz"))=42
 				endif
-				ModifyGraph /W=$winn rgb($(trs+"kz"))=(clw[mod(i,10)][0],clw[mod(i,10)][1],clw[mod(i,10)][2])
+				ModifyGraph /W=$winn rgb($(trs+"kz"))=(cr,cg,cb)
 			endif
 			i+=1
 		while(1)
