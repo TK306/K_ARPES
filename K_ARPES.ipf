@@ -331,6 +331,10 @@ Macro K_ARPES_start()
 		variable/g v_cross_y
 		variable/g v_cross_x
 		
+		variable/g v_pkf
+		variable/g v_zeta
+		variable/g v_eta
+		
 		if(v_cross_x==0 && v_cross_y==0 && v_cross_z==0)
 			variable/g v_cross_x=1
 		endif
@@ -445,7 +449,7 @@ End
 
 Window K_ARPES_p() : Panel
 	PauseUpdate; Silent 1		// building window...
-	NewPanel /K=1 /W=(383,57,682,702) as "K_ARPES panel"
+	NewPanel /K=1 /W=(564,157,863,802) as "K_ARPES panel"
 	ModifyPanel cbRGB=(65535,54611,49151), fixedSize=1
 	SetDrawLayer UserBack
 	DrawText 146,197,"Alpha (deg)"
@@ -453,9 +457,9 @@ Window K_ARPES_p() : Panel
 	DrawText 123,62,"Val.@NML"
 	DrawText 73,63,"Value"
 	DrawText 240,62,"Rev."
-	DrawText 28,183,"Emis. Ang."
-	DrawText 40,205,"Slit ll"
-	DrawText 40,228,"Slit L"
+	DrawText 28,166,"Emis. Ang."
+	DrawText 40,188,"Slit ll"
+	DrawText 40,211,"Slit L"
 	DrawText 251,198,"Rev."
 	DrawText 23,42,"\\f01Manipulator"
 	DrawText 143,161,"\\f01Analyzer"
@@ -493,11 +497,11 @@ Window K_ARPES_p() : Panel
 	CheckBox check_revph,value= 0
 	CheckBox check_revaz,pos={244.00,112.00},size={14.00,14.00},proc=K_CheckProc_revaz,title=""
 	CheckBox check_revaz,value= 0
-	SetVariable setvar_alp,pos={68.00,188.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_alp,pos={68.00,171.00},size={50.00,18.00},bodyWidth=50,title=" "
 	SetVariable setvar_alp,limits={-inf,inf,0},value= root:K_ARPES:misc:v_alp_emis_set
-	SetVariable setvar_bet,pos={68.00,210.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_bet,pos={68.00,193.00},size={50.00,18.00},bodyWidth=50,title=" "
 	SetVariable setvar_bet,limits={-inf,inf,0},value= root:K_ARPES:misc:v_bet_emis_set
-	Button button_find,pos={58.00,235.00},size={50.00,20.00},proc=K_ButtonProc_sample,title="Set"
+	Button button_find,pos={87.00,148.00},size={50.00,20.00},proc=K_ButtonProc_sample,title="Set"
 	SetVariable setvar_analyzer,pos={143.00,162.00},size={104.00,18.00},bodyWidth=49,proc=K_SetVarProc_ar,title="Rotation :"
 	SetVariable setvar_analyzer,limits={-inf,inf,90},value= root:K_ARPES:misc:v_anal_rot
 	SetVariable setvar_th_s,pos={158.00,197.00},size={93.00,18.00},bodyWidth=60,proc=K_SetVarProc_thsnum,title="start :"
@@ -619,6 +623,11 @@ Window K_ARPES_p() : Panel
 	Button button_xz,pos={235.00,494.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
 	Button button_xz,fColor=(0,65535,65535)
 	Button button_m_zero,pos={25.00,132.00},size={50.00,20.00},proc=K_ButtonProc_m_zero,title="Zero"
+	SetVariable setvar_zeta,pos={45.00,226.00},size={69.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="ζ"
+	SetVariable setvar_zeta,limits={-inf,inf,0},value= root:K_ARPES:misc:v_zeta
+	SetVariable setvar_eta,pos={43.00,246.00},size={71.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="η"
+	SetVariable setvar_eta,limits={-inf,inf,0},value= root:K_ARPES:misc:v_eta
+	CheckBox check_pkf,pos={22.00,237.00},size={14.00,14.00},title="",value= 0
 EndMacro
 
 Function K_panel_update()
@@ -976,13 +985,27 @@ Function K_calc_emis(alp)
 	variable/g v_anal_rot
 	variable ar_r=v_anal_rot*pi/180
 	
+	nvar hn=v_hn
+	nvar vzeta=v_zeta
+	nvar veta=v_eta
+	nvar pkf=v_pkf
+	variable pk=K_ev2ainv(hn)
+	
+	variable pkx,pky,pkz
+	
+	if(pkf)
+		pkx=pk*sin(vzeta*pi/180)
+		pky=pk*sin(vzeta*pi/180)*sin(veta*pi/180)
+		pkz=pk*cos(vzeta*pi/180)*cos(veta*pi/180)
+	endif
+	
 	SetDataFolder root:K_ARPES:misc:rot_matrix
 	wave aw=$("NML")
 	SetDataFolder root:K_ARPES:misc
 	wave vw=$vws
-	vw[0]=vx1
-	vw[1]=vy1
-	vw[2]=vz1
+	vw[0]=vx1-pkx
+	vw[1]=vy1-pky
+	vw[2]=vz1-pkz
 	wave vw=$vws
 	SetDataFolder root:K_ARPES:misc:rot_matrix
 	MatrixMultiply $("man_rot_inv"),vw
@@ -1155,18 +1178,6 @@ Function K_ARPES_calc_kline_calc()
 	string thsnum=s_thsnum
 	string/g s_thenum
 	string thenum=s_thenum
-//	variable/g v_po
-//	variable po=v_po
-//	variable/g v_ph
-//	variable ph=v_ph
-//	variable/g v_az
-//	variable az=v_az
-//	variable/g v_poo
-//	variable poo=v_poo
-//	variable/g v_pho
-//	variable pho=v_pho
-//	variable/g v_azo
-//	variable azo=v_azo
 	variable/g v_alp_N
 	variable alp_N=v_alp_N
 	variable/g v_bet_N
@@ -1188,6 +1199,8 @@ Function K_ARPES_calc_kline_calc()
 	endif
 	
 	EK=hn-W-EB
+	
+	variable pk=smh*hn
 	
 	
 	string cxws="C"+num2str(cn)+"kx"
@@ -1212,9 +1225,6 @@ Function K_ARPES_calc_kline_calc()
 	note/K czw,K_make_note()
 	
 	variable counter=0
-//	variable rx,ry,rz,rx1,ry1,rz1
-	
-//	variable rot_r=(az-azo)/180*pi
 	
 	SetDataFolder root:K_ARPES:misc
 	
@@ -6490,6 +6500,58 @@ Function K_ButtonProc_m_zero(ba) : ButtonControl
 		case 2: // mouse up
 			// click code here
 			K_mani_all_zero()
+			break
+		case -1: // control being killed
+			break
+	endswitch
+
+	return 0
+End
+
+Static Function K_ev2ainv(ev)
+	variable ev
+	variable hc=1.23984193e4//[ev*A]
+	variable ainv=ev/hc
+	return ainv
+End
+
+Function K_CheckProc_pkf(cba) : CheckBoxControl
+	STRUCT WMCheckboxAction &cba
+
+	switch( cba.eventCode )
+		case 2: // mouse up
+			Variable checked = cba.checked
+			string  nf=GetDataFolder(1)
+			SetDataFolder root:K_ARPES:misc:automap
+			variable/g v_amapval
+			variable amap=v_amapval
+			nvar v_kconv=root:K_ARPES:global:v_kconv
+			SetDataFolder root:K_ARPES:misc
+			string/g s_winname
+			variable/g v_app
+			variable/g v_map
+			variable/g v_smh
+			
+			K_set_emis_ang_window()
+			
+			if(!WinType(s_winname)==0 && v_kconv==0)
+				if(amap==1)
+					if(v_app==0)
+						K_ARPES_calc_kline()
+						K_append_curve()
+					elseif(v_map==1)
+						K_ARPES_calc_kline()
+						K_append_curve()
+					endif
+				else
+					if(v_app==0)
+						K_auto_mapping(1)
+					endif
+				endif
+				K_calcAxisRange_w()
+			endif
+			
+			SetDataFolder $nf
 			break
 		case -1: // control being killed
 			break
