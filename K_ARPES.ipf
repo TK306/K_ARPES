@@ -707,11 +707,11 @@ Function K_refresh_panel()
 	CheckBox check_revph,value= 0
 	CheckBox check_revaz,pos={244.00,112.00},size={14.00,14.00},proc=K_CheckProc_revaz,title=""
 	CheckBox check_revaz,value= 0
-	SetVariable setvar_alp,pos={68.00,188.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_alp,pos={60.00,179.00},size={50.00,18.00},bodyWidth=50,title=" "
 	SetVariable setvar_alp,limits={-inf,inf,0},value= root:K_ARPES:misc:v_alp_emis_set
-	SetVariable setvar_bet,pos={68.00,210.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_bet,pos={60.00,201.00},size={50.00,18.00},bodyWidth=50,title=" "
 	SetVariable setvar_bet,limits={-inf,inf,0},value= root:K_ARPES:misc:v_bet_emis_set
-	Button button_find,pos={58.00,235.00},size={50.00,20.00},proc=K_ButtonProc_sample,title="Set"
+	Button button_find,pos={79.00,156.00},size={50.00,20.00},proc=K_ButtonProc_sample,title="Set"
 	SetVariable setvar_analyzer,pos={143.00,162.00},size={104.00,18.00},bodyWidth=49,proc=K_SetVarProc_ar,title="Rotation :"
 	SetVariable setvar_analyzer,limits={-inf,inf,90},value= root:K_ARPES:misc:v_anal_rot
 	SetVariable setvar_th_s,pos={158.00,197.00},size={93.00,18.00},bodyWidth=60,proc=K_SetVarProc_thsnum,title="start :"
@@ -827,12 +827,16 @@ Function K_refresh_panel()
 	Button button_init,pos={76.00,612.00},size={150.00,20.00},proc=K_ButtonProc_init,title="Initialize K_ARPES"
 	Button button_init,fColor=(65535,16385,16385)
 	Button button_yz,pos={218.00,477.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
-	Button button_yz,fColor=(0,65535,65535)
 	Button button_xy,pos={235.00,477.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
 	Button button_xy,fColor=(0,65535,65535)
 	Button button_xz,pos={235.00,494.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
-	Button button_xz,fColor=(0,65535,65535)
 	Button button_m_zero,pos={25.00,132.00},size={50.00,20.00},proc=K_ButtonProc_m_zero,title="Zero"
+	SetVariable setvar_zeta,pos={69.00,227.00},size={39.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="ζ"
+	SetVariable setvar_zeta,limits={-90,90,0},value= root:K_ARPES:misc:v_zeta
+	SetVariable setvar_eta,pos={67.00,249.00},size={41.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="η"
+	SetVariable setvar_eta,limits={-90,90,0},value= root:K_ARPES:misc:v_eta
+	CheckBox check_pkf,pos={42.00,241.00},size={14.00,14.00},proc=K_CheckProc_pkf,title=""
+	CheckBox check_pkf,variable= root:K_ARPES:misc:v_pkf
 	
 	string nf=GetDataFolder(1)
 	SetDataFolder root:K_ARPES:misc
