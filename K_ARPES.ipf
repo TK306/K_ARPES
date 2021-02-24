@@ -368,7 +368,7 @@ Macro K_ARPES_start()
 		variable/g v_ky_n=100
 		variable/g v_kconv_vol=0
 		variable/g v_kconv_en=0
-		variable/g v_outr=NaN
+		variable/g v_outr=-inf
 		string/g s_fintime=""
 		
 		K_make_window()
@@ -445,7 +445,7 @@ End
 
 Window K_ARPES_p() : Panel
 	PauseUpdate; Silent 1		// building window...
-	NewPanel /K=1 /W=(383,57,682,702) as "K_ARPES panel"
+	NewPanel /K=1 /W=(524,61,823,706) as "K_ARPES panel"
 	ModifyPanel cbRGB=(65535,54611,49151), fixedSize=1
 	SetDrawLayer UserBack
 	DrawText 146,197,"Alpha (deg)"
@@ -460,164 +460,163 @@ Window K_ARPES_p() : Panel
 	DrawText 23,42,"\\f01Manipulator"
 	DrawText 143,161,"\\f01Analyzer"
 	DrawText 187,62,"Offsets"
-	SetVariable setvar_status,pos={218.00,0.00},size={72.00,18.00},bodyWidth=30,title="Status :"
+	SetVariable setvar_status,pos={224.00,0.00},size={66.00,14.00},bodyWidth=30,title="Status :"
 	SetVariable setvar_status,frame=0,fStyle=0,valueBackColor=(65535,54611,49151)
 	SetVariable setvar_status,limits={-inf,inf,0},value= _STR:"Idle",noedit= 1
-	SetVariable setvar_step,pos={173.00,27.00},size={104.00,18.00},bodyWidth=46,proc=K_SetVarProc_panelstep,title="Panel step"
+	SetVariable setvar_step,pos={182.00,27.00},size={95.00,14.00},bodyWidth=46,proc=K_SetVarProc_panelstep,title="Panel step"
 	SetVariable setvar_step,limits={0,inf,1},value= _NUM:1
 	GroupBox Curve,pos={8.00,7.00},size={282.00,389.00},title="Experimental setting"
-	SetVariable setvar_po,pos={25.00,67.00},size={91.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Polar"
+	SetVariable setvar_po,pos={30.00,67.00},size={86.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Polar"
 	SetVariable setvar_po,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_po,limits={-90,90,1},value= root:K_ARPES:misc:v_po
-	SetVariable setvar_ph,pos={36.00,88.00},size={80.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Tilt"
+	SetVariable setvar_ph,pos={38.00,88.00},size={78.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Tilt"
 	SetVariable setvar_ph,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_ph,limits={-90,90,1},value= root:K_ARPES:misc:v_ph
-	SetVariable setvar_az,pos={33.00,109.00},size={83.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Azi."
+	SetVariable setvar_az,pos={35.00,109.00},size={81.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Azi."
 	SetVariable setvar_az,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_az,value= root:K_ARPES:misc:v_az
-	SetVariable setvar_po_nml,pos={128.00,66.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_po_nml,pos={128.00,66.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_po_nml,limits={-90,90,1},value= root:K_ARPES:misc:v_poo
-	SetVariable setvar_ph_nml,pos={128.00,88.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_ph_nml,pos={128.00,88.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_ph_nml,limits={-90,90,1},value= root:K_ARPES:misc:v_pho
-	SetVariable setvar_az_nml,pos={128.00,109.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_az_nml,pos={128.00,109.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_az_nml,value= root:K_ARPES:misc:v_azo
-	SetVariable setvar_po_ofs,pos={184.00,66.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_po_ofs,pos={184.00,66.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_po_ofs,limits={-90,90,1},value= root:K_ARPES:misc:v_po_ofs
-	SetVariable setvar_ph_ofs,pos={184.00,88.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_ph_ofs,pos={184.00,88.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_ph_ofs,limits={-90,90,1},value= root:K_ARPES:misc:v_ph_ofs
-	SetVariable setvar_az_ofs,pos={184.00,109.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_az_ofs,pos={184.00,109.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_az_ofs,value= root:K_ARPES:misc:v_az_ofs
-	CheckBox check_revpo,pos={244.00,69.00},size={14.00,14.00},proc=K_CheckProc_revpo,title=""
+	CheckBox check_revpo,pos={244.00,69.00},size={15.00,16.00},proc=K_CheckProc_revpo,title=""
 	CheckBox check_revpo,value= 0
-	CheckBox check_revph,pos={244.00,91.00},size={14.00,14.00},proc=K_CheckProc_revph,title=""
+	CheckBox check_revph,pos={244.00,91.00},size={15.00,16.00},proc=K_CheckProc_revph,title=""
 	CheckBox check_revph,value= 0
-	CheckBox check_revaz,pos={244.00,112.00},size={14.00,14.00},proc=K_CheckProc_revaz,title=""
+	CheckBox check_revaz,pos={244.00,112.00},size={15.00,16.00},proc=K_CheckProc_revaz,title=""
 	CheckBox check_revaz,value= 0
-	SetVariable setvar_alp,pos={68.00,188.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_alp,pos={68.00,188.00},size={50.00,14.00},bodyWidth=50,title=" "
 	SetVariable setvar_alp,limits={-inf,inf,0},value= root:K_ARPES:misc:v_alp_emis_set
-	SetVariable setvar_bet,pos={68.00,210.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_bet,pos={68.00,210.00},size={50.00,14.00},bodyWidth=50,title=" "
 	SetVariable setvar_bet,limits={-inf,inf,0},value= root:K_ARPES:misc:v_bet_emis_set
 	Button button_find,pos={58.00,235.00},size={50.00,20.00},proc=K_ButtonProc_sample,title="Set"
-	SetVariable setvar_analyzer,pos={143.00,162.00},size={104.00,18.00},bodyWidth=49,proc=K_SetVarProc_ar,title="Rotation :"
+	SetVariable setvar_analyzer,pos={152.00,162.00},size={95.00,14.00},bodyWidth=49,proc=K_SetVarProc_ar,title="Rotation :"
 	SetVariable setvar_analyzer,limits={-inf,inf,90},value= root:K_ARPES:misc:v_anal_rot
-	SetVariable setvar_th_s,pos={158.00,197.00},size={93.00,18.00},bodyWidth=60,proc=K_SetVarProc_thsnum,title="start :"
+	SetVariable setvar_th_s,pos={161.00,197.00},size={90.00,14.00},bodyWidth=60,proc=K_SetVarProc_thsnum,title="start :"
 	SetVariable setvar_th_s,limits={-90,90,1},value= root:K_ARPES:misc:v_th_s
-	SetVariable setvar_th_e,pos={162.00,221.00},size={90.00,18.00},bodyWidth=60,proc=K_SetVarProc_thenum,title="end :"
+	SetVariable setvar_th_e,pos={166.00,221.00},size={86.00,14.00},bodyWidth=60,proc=K_SetVarProc_thenum,title="end :"
 	SetVariable setvar_th_e,limits={-90,90,1},value= root:K_ARPES:misc:v_th_e
-	CheckBox check_revth,pos={256.00,210.00},size={14.00,14.00},proc=K_CheckProc_revth,title=""
+	CheckBox check_revth,pos={256.00,210.00},size={15.00,16.00},proc=K_CheckProc_revth,title=""
 	CheckBox check_revth,value= 0
-	SetVariable setvar_bet_offs,pos={145.00,245.00},size={106.00,18.00},bodyWidth=45,proc=K_SetVarProc_calc,title="Beta (deg):"
+	SetVariable setvar_bet_offs,pos={156.00,245.00},size={95.00,14.00},bodyWidth=45,proc=K_SetVarProc_calc,title="Beta (deg):"
 	SetVariable setvar_bet_offs,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_bet_offs,limits={-90,90,1},value= root:K_ARPES:misc:v_bet
-	CheckBox check_revbet,pos={256.00,248.00},size={14.00,14.00},proc=K_CheckProc_revbet,title=""
+	CheckBox check_revbet,pos={256.00,248.00},size={15.00,16.00},proc=K_CheckProc_revbet,title=""
 	CheckBox check_revbet,value= 0
-	SetVariable setvar_hn,pos={174.00,295.00},size={84.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="hn :"
+	SetVariable setvar_hn,pos={177.00,295.00},size={81.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="hn :"
 	SetVariable setvar_hn,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_hn,limits={0,inf,1},value= root:K_ARPES:misc:v_hn
-	SetVariable setvar_V0,pos={174.00,315.00},size={83.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="V0 :"
+	SetVariable setvar_V0,pos={176.00,315.00},size={81.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="V0 :"
 	SetVariable setvar_V0,value= root:K_ARPES:misc:v_V0
-	SetVariable setvar_W,pos={176.00,335.00},size={81.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="W :"
+	SetVariable setvar_W,pos={180.00,335.00},size={77.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="W :"
 	SetVariable setvar_W,value= root:K_ARPES:misc:v_W
-	SetVariable setvar_EB,pos={174.00,355.00},size={83.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="EB :"
+	SetVariable setvar_EB,pos={177.00,355.00},size={80.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="EB :"
 	SetVariable setvar_EB,value= root:K_ARPES:misc:v_EB
 	GroupBox Mapping,pos={17.00,272.00},size={135.00,118.00},title="Mapping"
-	PopupMenu popup_amapval,pos={28.00,290.00},size={99.00,19.00},proc=K_PopMenuProc_amap_variable,title="Variable :"
+	PopupMenu popup_amapval,pos={28.00,290.00},size={103.00,23.00},proc=K_PopMenuProc_amap_variable,title="Variable :"
 	PopupMenu popup_amapval,mode=1,popvalue="none",value= #"\"none;Polar;Tilt;Azimuth;Beta;hn;EB\""
-	SetVariable setvar_map_st,pos={44.00,311.00},size={74.00,18.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Start :"
+	SetVariable setvar_map_st,pos={48.00,311.00},size={70.00,14.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Start :"
 	SetVariable setvar_map_st,value= root:K_ARPES:misc:automap:amap_parameter[0]
-	SetVariable setvar_map_step,pos={44.00,331.00},size={73.00,18.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Step :"
+	SetVariable setvar_map_step,pos={48.00,331.00},size={69.00,14.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Step :"
 	SetVariable setvar_map_step,value= root:K_ARPES:misc:automap:amap_parameter[1]
-	SetVariable setvar_map_en,pos={47.00,351.00},size={70.00,18.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="End :"
+	SetVariable setvar_map_en,pos={51.00,351.00},size={66.00,14.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="End :"
 	SetVariable setvar_map_en,value= root:K_ARPES:misc:automap:amap_parameter[2]
-	SetVariable setvar_map_num,pos={60.00,367.00},size={60.00,18.00},bodyWidth=60,disable=2,title=" "
+	SetVariable setvar_map_num,pos={60.00,367.00},size={60.00,14.00},bodyWidth=60,disable=2,title=" "
 	SetVariable setvar_map_num,format="%d points",frame=0
 	SetVariable setvar_map_num,limits={-inf,inf,0},value= root:K_ARPES:misc:automap:amap_parameter[3],noedit= 1
 	TabControl tab_mode,pos={29.00,399.00},size={240.00,20.00},proc=K_TabProc_panelmode
 	TabControl tab_mode,tabLabel(0)="Simulation mode"
 	TabControl tab_mode,tabLabel(1)="Data analyze mode",value= 0
 	GroupBox run_setting,pos={9.00,422.00},size={279.00,182.00},title="Plot setting"
-	SetVariable setvar_winname,pos={18.00,443.00},size={141.00,18.00},bodyWidth=100,proc=K_SetVarProc_restore,title="Name :"
+	SetVariable setvar_winname,pos={24.00,443.00},size={135.00,14.00},bodyWidth=100,proc=K_SetVarProc_restore,title="Name :"
 	SetVariable setvar_winname,value= root:K_ARPES:misc:s_winname
-	PopupMenu popup_winlist,pos={159.00,443.00},size={123.00,19.00},proc=K_PopMenuProc_winlist,title="< select from exists"
+	PopupMenu popup_winlist,pos={159.00,443.00},size={147.00,23.00},proc=K_PopMenuProc_winlist,title="< select from exists"
 	PopupMenu popup_winlist,mode=0,value= #"K_winlist_str()"
-	SetVariable setvar_show_pr,pos={25.00,465.00},size={100.00,18.00},frame=0
+	SetVariable setvar_show_pr,pos={25.00,465.00},size={100.00,14.00},frame=0
 	SetVariable setvar_show_pr,value= _STR:"Plot range (/A)",noedit= 1
-	SetVariable setvar_show_min,pos={38.00,479.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_min,pos={38.00,479.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_min,value= _STR:"min.",noedit= 1
-	SetVariable setvar_kxmin,pos={20.00,496.00},size={59.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kx "
+	SetVariable setvar_kxmin,pos={21.00,496.00},size={58.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kx "
 	SetVariable setvar_kxmin,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kxmin_w
-	SetVariable setvar_kymin,pos={20.00,518.00},size={59.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="ky "
+	SetVariable setvar_kymin,pos={22.00,518.00},size={57.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="ky "
 	SetVariable setvar_kymin,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kymin_w
-	SetVariable setvar_kzmin,pos={21.00,539.00},size={58.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kz "
+	SetVariable setvar_kzmin,pos={22.00,539.00},size={57.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kz "
 	SetVariable setvar_kzmin,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kzmin_w
-	SetVariable setvar_show_max,pos={80.00,479.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_max,pos={80.00,479.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_max,value= _STR:"max.",noedit= 1
-	SetVariable setvar_kxmax,pos={80.00,496.00},size={40.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kxmax,pos={80.00,496.00},size={40.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kxmax,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kxmax_w
-	SetVariable setvar_kymax,pos={80.00,518.00},size={40.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kymax,pos={80.00,518.00},size={40.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kymax,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kymax_w
-	SetVariable setvar_kzmax,pos={80.00,539.00},size={40.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kzmax,pos={80.00,539.00},size={40.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kzmax,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kzmax_w
-	SetVariable setvar_show_wid,pos={120.00,480.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_wid,pos={120.00,480.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_wid,value= _STR:"wid.",noedit= 1
-	SetVariable setvar_kxwid,pos={122.00,497.00},size={25.00,18.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kxwid,pos={122.00,497.00},size={25.00,14.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kxwid,limits={-inf,inf,0},value= root:K_ARPES:misc:v_kxwid_w
-	SetVariable setvar_kywid,pos={122.00,519.00},size={25.00,18.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kywid,pos={122.00,519.00},size={25.00,14.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kywid,limits={-inf,inf,0},value= root:K_ARPES:misc:v_kywid_w
-	SetVariable setvar_kzwid,pos={122.00,540.00},size={25.00,18.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kzwid,pos={122.00,540.00},size={25.00,14.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kzwid,limits={-inf,inf,0},value= root:K_ARPES:misc:v_kzwid_w
-	SetVariable setvar_show_fix,pos={149.00,480.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_fix,pos={149.00,480.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_fix,value= _STR:"fix.",noedit= 1
-	CheckBox check_fixkx,pos={152.00,499.00},size={14.00,14.00},proc=K_CheckProc_fixkz,title=""
+	CheckBox check_fixkx,pos={152.00,499.00},size={15.00,16.00},proc=K_CheckProc_fixkz,title=""
 	CheckBox check_fixkx,variable= root:K_ARPES:misc:v_kxfixed
-	CheckBox check_fixky,pos={152.00,521.00},size={14.00,14.00},proc=K_CheckProc_fixkz,title=""
+	CheckBox check_fixky,pos={152.00,521.00},size={15.00,16.00},proc=K_CheckProc_fixkz,title=""
 	CheckBox check_fixky,variable= root:K_ARPES:misc:v_kyfixed
-	CheckBox check_fixkz,pos={152.00,542.00},size={14.00,14.00},proc=K_CheckProc_fixkz,title=""
+	CheckBox check_fixkz,pos={152.00,542.00},size={15.00,16.00},proc=K_CheckProc_fixkz,title=""
 	CheckBox check_fixkz,variable= root:K_ARPES:misc:v_kzfixed
 	Button button_select_wave,pos={110.00,444.00},size={153.00,20.00},disable=3,proc=K_ButtonProc_select_wave,title=""
-	CheckBox check_new,pos={185.00,519.00},size={40.00,15.00},proc=K_CheckProc_app,title="\\f01New"
+	CheckBox check_new,pos={185.00,519.00},size={36.00,16.00},proc=K_CheckProc_app,title="\\f01New"
 	CheckBox check_new,variable= root:K_ARPES:misc:v_app
-	CheckBox check_map,pos={185.00,538.00},size={51.00,15.00},proc=K_CheckProc_map,title="\\f01Sweep"
+	CheckBox check_map,pos={185.00,538.00},size={44.00,16.00},proc=K_CheckProc_map,title="\\f01Sweep"
 	CheckBox check_map,variable= root:K_ARPES:misc:v_map
 	Button button_init_window,pos={24.00,571.00},size={100.00,20.00},proc=K_ButtonProc_make_window,title="Init. window"
-	SetVariable setvar_show_ARPES_data,pos={35.00,445.00},size={70.00,18.00},disable=3
+	SetVariable setvar_show_ARPES_data,pos={35.00,445.00},size={70.00,14.00},disable=3
 	SetVariable setvar_show_ARPES_data,frame=0,value= _STR:"ARPES data :",noedit= 1
-	SetVariable setvar_kconv_ef,pos={35.00,467.00},size={101.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef,title="Ekin of EF :"
+	SetVariable setvar_kconv_ef,pos={44.00,467.00},size={92.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef,title="Ekin of EF :"
 	SetVariable setvar_kconv_ef,limits={-inf,inf,0},value= root:K_ARPES:global:v_EF
-	SetVariable setvar_kconv_ek,pos={23.00,487.00},size={112.00,18.00},bodyWidth=40,disable=3,title="Ekin of data :"
+	SetVariable setvar_kconv_ek,pos={34.00,487.00},size={101.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="Ekin of data :"
 	SetVariable setvar_kconv_ek,limits={-inf,inf,0},value= root:K_ARPES:global:v_ek
-	SetVariable setvar_kconv_ef_data,pos={33.00,491.00},size={102.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef_data,title="EF of data :"
+	SetVariable setvar_kconv_ef_data,pos={42.00,491.00},size={93.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef_data,title="EF of data :"
 	SetVariable setvar_kconv_ef_data,limits={-inf,inf,0},value= root:K_ARPES:global:v_EF_data
-	SetVariable setvar_kconv_eofs,pos={15.00,514.00},size={119.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_eofs,title="Energy offset :"
+	SetVariable setvar_kconv_eofs,pos={27.00,514.00},size={107.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_eofs,title="Energy offset :"
 	SetVariable setvar_kconv_eofs,limits={-inf,inf,0},value= root:K_ARPES:global:v_eofs
-	PopupMenu popup_ydim,pos={174.00,469.00},size={84.00,19.00},disable=3,proc=K_PopMenuProc_img,title="Y dim: "
+	PopupMenu popup_ydim,pos={174.00,469.00},size={89.00,23.00},disable=3,proc=K_PopMenuProc_img,title="Y dim: "
 	PopupMenu popup_ydim,mode=1,popvalue="Eng.",value= #"\"Eng.;Map.\""
-	CheckBox check_kconv_vol,pos={48.00,541.00},size={71.00,15.00},disable=3,proc=K_CheckProc_kconv_vol,title="Map to 3D"
+	CheckBox check_kconv_vol,pos={48.00,541.00},size={62.00,16.00},disable=3,proc=K_CheckProc_kconv_vol,title="Map to 3D"
 	CheckBox check_kconv_vol,variable= root:K_ARPES:global:v_kconv_vol
-	SetVariable setvar_kconv_en_str,pos={184.00,466.00},size={56.00,18.00},disable=3,title="Energy :"
+	SetVariable setvar_kconv_en_str,pos={184.00,466.00},size={56.00,14.00},disable=3,title="Energy :"
 	SetVariable setvar_kconv_en_str,frame=0
 	SetVariable setvar_kconv_en_str,limits={-inf,inf,0},value= _STR:"",noedit= 1
-	SetVariable setvar_kconv_en,pos={231.00,467.00},size={40.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title=" "
+	SetVariable setvar_kconv_en,pos={231.00,467.00},size={40.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title=" "
+	SetVariable setvar_kconv_en,valueBackColor=(65535,32768,32768)
 	SetVariable setvar_kconv_en,limits={-inf,inf,0},value= root:K_ARPES:global:v_kconv_en
-	SetVariable setvar_kconv_en_s,pos={196.00,484.00},size={74.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="Start :"
+	SetVariable setvar_kconv_en_s,pos={200.00,484.00},size={70.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="Start :"
 	SetVariable setvar_kconv_en_s,limits={-inf,inf,0},value= root:K_ARPES:global:v_e_s
-	SetVariable setvar_kconv_en_e,pos={200.00,504.00},size={70.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="End :"
+	SetVariable setvar_kconv_en_e,pos={204.00,504.00},size={66.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="End :"
 	SetVariable setvar_kconv_en_e,limits={-inf,inf,0},value= root:K_ARPES:global:v_e_e
-	SetVariable setvar_kconv_kxn,pos={172.00,523.00},size={98.00,18.00},bodyWidth=40,disable=3,title="kx points :"
+	SetVariable setvar_kconv_kxn,pos={179.00,523.00},size={91.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="kx points :"
 	SetVariable setvar_kconv_kxn,limits={2,inf,0},value= root:K_ARPES:global:v_kx_n
-	SetVariable setvar_kconv_kyn,pos={172.00,541.00},size={98.00,18.00},bodyWidth=40,disable=3,title="ky points :"
+	SetVariable setvar_kconv_kyn,pos={180.00,541.00},size={90.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="ky points :"
 	SetVariable setvar_kconv_kyn,limits={2,inf,0},value= root:K_ARPES:global:v_ky_n
-	SetVariable setvar_outr,pos={15.00,561.00},size={156.00,18.00},bodyWidth=40,disable=3,title="Fill out of range with "
+	SetVariable setvar_outr,pos={34.00,561.00},size={137.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="Fill out of range with "
 	SetVariable setvar_outr,limits={-inf,inf,0},value= root:K_ARPES:global:v_outr
 	Button button_go,pos={176.00,561.00},size={100.00,28.00},proc=K_ButtonProc_go,title="\\Zr200\\f01PLOT"
 	Button button_init,pos={76.00,612.00},size={150.00,20.00},proc=K_ButtonProc_init,title="Initialize K_ARPES"
 	Button button_init,fColor=(65535,16385,16385)
 	Button button_yz,pos={218.00,477.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
-	Button button_yz,fColor=(0,65535,65535)
 	Button button_xy,pos={235.00,477.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
 	Button button_xy,fColor=(0,65535,65535)
 	Button button_xz,pos={235.00,494.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
-	Button button_xz,fColor=(0,65535,65535)
 	Button button_m_zero,pos={25.00,132.00},size={50.00,20.00},proc=K_ButtonProc_m_zero,title="Zero"
 EndMacro
 
@@ -666,164 +665,163 @@ End
 
 Function K_refresh_panel()
 	DoWindow/F K_ARPES_p
-	SetVariable setvar_status,pos={218.00,0.00},size={72.00,18.00},bodyWidth=30,title="Status :"
+	SetVariable setvar_status,pos={224.00,0.00},size={66.00,14.00},bodyWidth=30,title="Status :"
 	SetVariable setvar_status,frame=0,fStyle=0,valueBackColor=(65535,54611,49151)
 	SetVariable setvar_status,limits={-inf,inf,0},value= _STR:"Idle",noedit= 1
-	SetVariable setvar_step,pos={173.00,27.00},size={104.00,18.00},bodyWidth=46,proc=K_SetVarProc_panelstep,title="Panel step"
+	SetVariable setvar_step,pos={182.00,27.00},size={95.00,14.00},bodyWidth=46,proc=K_SetVarProc_panelstep,title="Panel step"
 	SetVariable setvar_step,limits={0,inf,1},value= _NUM:1
 	GroupBox Curve,pos={8.00,7.00},size={282.00,389.00},title="Experimental setting"
-	SetVariable setvar_po,pos={25.00,67.00},size={91.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Polar"
+	SetVariable setvar_po,pos={30.00,67.00},size={86.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Polar"
 	SetVariable setvar_po,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_po,limits={-90,90,1},value= root:K_ARPES:misc:v_po
-	SetVariable setvar_ph,pos={36.00,88.00},size={80.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Tilt"
+	SetVariable setvar_ph,pos={38.00,88.00},size={78.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Tilt"
 	SetVariable setvar_ph,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_ph,limits={-90,90,1},value= root:K_ARPES:misc:v_ph
-	SetVariable setvar_az,pos={33.00,109.00},size={83.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Azi."
+	SetVariable setvar_az,pos={35.00,109.00},size={81.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="Azi."
 	SetVariable setvar_az,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_az,value= root:K_ARPES:misc:v_az
-	SetVariable setvar_po_nml,pos={128.00,66.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_po_nml,pos={128.00,66.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_po_nml,limits={-90,90,1},value= root:K_ARPES:misc:v_poo
-	SetVariable setvar_ph_nml,pos={128.00,88.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_ph_nml,pos={128.00,88.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_ph_nml,limits={-90,90,1},value= root:K_ARPES:misc:v_pho
-	SetVariable setvar_az_nml,pos={128.00,109.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_az_nml,pos={128.00,109.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_az_nml,value= root:K_ARPES:misc:v_azo
-	SetVariable setvar_po_ofs,pos={184.00,66.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_po_ofs,pos={184.00,66.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_po_ofs,limits={-90,90,1},value= root:K_ARPES:misc:v_po_ofs
-	SetVariable setvar_ph_ofs,pos={184.00,88.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_ph_ofs,pos={184.00,88.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_ph_ofs,limits={-90,90,1},value= root:K_ARPES:misc:v_ph_ofs
-	SetVariable setvar_az_ofs,pos={184.00,109.00},size={50.00,18.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
+	SetVariable setvar_az_ofs,pos={184.00,109.00},size={50.00,14.00},bodyWidth=50,proc=K_SetVarProc_calc,title=" "
 	SetVariable setvar_az_ofs,value= root:K_ARPES:misc:v_az_ofs
-	CheckBox check_revpo,pos={244.00,69.00},size={14.00,14.00},proc=K_CheckProc_revpo,title=""
+	CheckBox check_revpo,pos={244.00,69.00},size={15.00,16.00},proc=K_CheckProc_revpo,title=""
 	CheckBox check_revpo,value= 0
-	CheckBox check_revph,pos={244.00,91.00},size={14.00,14.00},proc=K_CheckProc_revph,title=""
+	CheckBox check_revph,pos={244.00,91.00},size={15.00,16.00},proc=K_CheckProc_revph,title=""
 	CheckBox check_revph,value= 0
-	CheckBox check_revaz,pos={244.00,112.00},size={14.00,14.00},proc=K_CheckProc_revaz,title=""
+	CheckBox check_revaz,pos={244.00,112.00},size={15.00,16.00},proc=K_CheckProc_revaz,title=""
 	CheckBox check_revaz,value= 0
-	SetVariable setvar_alp,pos={68.00,188.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_alp,pos={68.00,188.00},size={50.00,14.00},bodyWidth=50,title=" "
 	SetVariable setvar_alp,limits={-inf,inf,0},value= root:K_ARPES:misc:v_alp_emis_set
-	SetVariable setvar_bet,pos={68.00,210.00},size={50.00,18.00},bodyWidth=50,title=" "
+	SetVariable setvar_bet,pos={68.00,210.00},size={50.00,14.00},bodyWidth=50,title=" "
 	SetVariable setvar_bet,limits={-inf,inf,0},value= root:K_ARPES:misc:v_bet_emis_set
 	Button button_find,pos={58.00,235.00},size={50.00,20.00},proc=K_ButtonProc_sample,title="Set"
-	SetVariable setvar_analyzer,pos={143.00,162.00},size={104.00,18.00},bodyWidth=49,proc=K_SetVarProc_ar,title="Rotation :"
+	SetVariable setvar_analyzer,pos={152.00,162.00},size={95.00,14.00},bodyWidth=49,proc=K_SetVarProc_ar,title="Rotation :"
 	SetVariable setvar_analyzer,limits={-inf,inf,90},value= root:K_ARPES:misc:v_anal_rot
-	SetVariable setvar_th_s,pos={158.00,197.00},size={93.00,18.00},bodyWidth=60,proc=K_SetVarProc_thsnum,title="start :"
+	SetVariable setvar_th_s,pos={161.00,197.00},size={90.00,14.00},bodyWidth=60,proc=K_SetVarProc_thsnum,title="start :"
 	SetVariable setvar_th_s,limits={-90,90,1},value= root:K_ARPES:misc:v_th_s
-	SetVariable setvar_th_e,pos={162.00,221.00},size={90.00,18.00},bodyWidth=60,proc=K_SetVarProc_thenum,title="end :"
+	SetVariable setvar_th_e,pos={166.00,221.00},size={86.00,14.00},bodyWidth=60,proc=K_SetVarProc_thenum,title="end :"
 	SetVariable setvar_th_e,limits={-90,90,1},value= root:K_ARPES:misc:v_th_e
-	CheckBox check_revth,pos={256.00,210.00},size={14.00,14.00},proc=K_CheckProc_revth,title=""
+	CheckBox check_revth,pos={256.00,210.00},size={15.00,16.00},proc=K_CheckProc_revth,title=""
 	CheckBox check_revth,value= 0
-	SetVariable setvar_bet_offs,pos={145.00,245.00},size={106.00,18.00},bodyWidth=45,proc=K_SetVarProc_calc,title="Beta (deg):"
+	SetVariable setvar_bet_offs,pos={156.00,245.00},size={95.00,14.00},bodyWidth=45,proc=K_SetVarProc_calc,title="Beta (deg):"
 	SetVariable setvar_bet_offs,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_bet_offs,limits={-90,90,1},value= root:K_ARPES:misc:v_bet
-	CheckBox check_revbet,pos={256.00,248.00},size={14.00,14.00},proc=K_CheckProc_revbet,title=""
+	CheckBox check_revbet,pos={256.00,248.00},size={15.00,16.00},proc=K_CheckProc_revbet,title=""
 	CheckBox check_revbet,value= 0
-	SetVariable setvar_hn,pos={174.00,295.00},size={84.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="hn :"
+	SetVariable setvar_hn,pos={177.00,295.00},size={81.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="hn :"
 	SetVariable setvar_hn,valueBackColor=(65535,65534,49151)
 	SetVariable setvar_hn,limits={0,inf,1},value= root:K_ARPES:misc:v_hn
-	SetVariable setvar_V0,pos={174.00,315.00},size={83.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="V0 :"
+	SetVariable setvar_V0,pos={176.00,315.00},size={81.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="V0 :"
 	SetVariable setvar_V0,value= root:K_ARPES:misc:v_V0
-	SetVariable setvar_W,pos={176.00,335.00},size={81.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="W :"
+	SetVariable setvar_W,pos={180.00,335.00},size={77.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="W :"
 	SetVariable setvar_W,value= root:K_ARPES:misc:v_W
-	SetVariable setvar_EB,pos={174.00,355.00},size={83.00,18.00},bodyWidth=60,proc=K_SetVarProc_calc,title="EB :"
+	SetVariable setvar_EB,pos={177.00,355.00},size={80.00,14.00},bodyWidth=60,proc=K_SetVarProc_calc,title="EB :"
 	SetVariable setvar_EB,value= root:K_ARPES:misc:v_EB
 	GroupBox Mapping,pos={17.00,272.00},size={135.00,118.00},title="Mapping"
-	PopupMenu popup_amapval,pos={28.00,290.00},size={99.00,19.00},proc=K_PopMenuProc_amap_variable,title="Variable :"
+	PopupMenu popup_amapval,pos={28.00,290.00},size={103.00,23.00},proc=K_PopMenuProc_amap_variable,title="Variable :"
 	PopupMenu popup_amapval,mode=1,popvalue="none",value= #"\"none;Polar;Tilt;Azimuth;Beta;hn;EB\""
-	SetVariable setvar_map_st,pos={44.00,311.00},size={74.00,18.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Start :"
+	SetVariable setvar_map_st,pos={48.00,311.00},size={70.00,14.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Start :"
 	SetVariable setvar_map_st,value= root:K_ARPES:misc:automap:amap_parameter[0]
-	SetVariable setvar_map_step,pos={44.00,331.00},size={73.00,18.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Step :"
+	SetVariable setvar_map_step,pos={48.00,331.00},size={69.00,14.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="Step :"
 	SetVariable setvar_map_step,value= root:K_ARPES:misc:automap:amap_parameter[1]
-	SetVariable setvar_map_en,pos={47.00,351.00},size={70.00,18.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="End :"
+	SetVariable setvar_map_en,pos={51.00,351.00},size={66.00,14.00},bodyWidth=40,disable=2,proc=K_SetVarProc_amap_parameter,title="End :"
 	SetVariable setvar_map_en,value= root:K_ARPES:misc:automap:amap_parameter[2]
-	SetVariable setvar_map_num,pos={60.00,367.00},size={60.00,18.00},bodyWidth=60,disable=2,title=" "
+	SetVariable setvar_map_num,pos={60.00,367.00},size={60.00,14.00},bodyWidth=60,disable=2,title=" "
 	SetVariable setvar_map_num,format="%d points",frame=0
 	SetVariable setvar_map_num,limits={-inf,inf,0},value= root:K_ARPES:misc:automap:amap_parameter[3],noedit= 1
 	TabControl tab_mode,pos={29.00,399.00},size={240.00,20.00},proc=K_TabProc_panelmode
 	TabControl tab_mode,tabLabel(0)="Simulation mode"
 	TabControl tab_mode,tabLabel(1)="Data analyze mode",value= 0
 	GroupBox run_setting,pos={9.00,422.00},size={279.00,182.00},title="Plot setting"
-	SetVariable setvar_winname,pos={18.00,443.00},size={141.00,18.00},bodyWidth=100,proc=K_SetVarProc_restore,title="Name :"
+	SetVariable setvar_winname,pos={24.00,443.00},size={135.00,14.00},bodyWidth=100,proc=K_SetVarProc_restore,title="Name :"
 	SetVariable setvar_winname,value= root:K_ARPES:misc:s_winname
-	PopupMenu popup_winlist,pos={159.00,443.00},size={123.00,19.00},proc=K_PopMenuProc_winlist,title="< select from exists"
+	PopupMenu popup_winlist,pos={159.00,443.00},size={147.00,23.00},proc=K_PopMenuProc_winlist,title="< select from exists"
 	PopupMenu popup_winlist,mode=0,value= #"K_winlist_str()"
-	SetVariable setvar_show_pr,pos={25.00,465.00},size={100.00,18.00},frame=0
+	SetVariable setvar_show_pr,pos={25.00,465.00},size={100.00,14.00},frame=0
 	SetVariable setvar_show_pr,value= _STR:"Plot range (/A)",noedit= 1
-	SetVariable setvar_show_min,pos={38.00,479.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_min,pos={38.00,479.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_min,value= _STR:"min.",noedit= 1
-	SetVariable setvar_kxmin,pos={20.00,496.00},size={59.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kx "
+	SetVariable setvar_kxmin,pos={21.00,496.00},size={58.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kx "
 	SetVariable setvar_kxmin,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kxmin_w
-	SetVariable setvar_kymin,pos={20.00,518.00},size={59.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="ky "
+	SetVariable setvar_kymin,pos={22.00,518.00},size={57.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="ky "
 	SetVariable setvar_kymin,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kymin_w
-	SetVariable setvar_kzmin,pos={21.00,539.00},size={58.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kz "
+	SetVariable setvar_kzmin,pos={22.00,539.00},size={57.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title="kz "
 	SetVariable setvar_kzmin,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kzmin_w
-	SetVariable setvar_show_max,pos={80.00,479.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_max,pos={80.00,479.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_max,value= _STR:"max.",noedit= 1
-	SetVariable setvar_kxmax,pos={80.00,496.00},size={40.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kxmax,pos={80.00,496.00},size={40.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kxmax,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kxmax_w
-	SetVariable setvar_kymax,pos={80.00,518.00},size={40.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kymax,pos={80.00,518.00},size={40.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kymax,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kymax_w
-	SetVariable setvar_kzmax,pos={80.00,539.00},size={40.00,18.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kzmax,pos={80.00,539.00},size={40.00,14.00},bodyWidth=40,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kzmax,limits={-inf,inf,0.5},value= root:K_ARPES:misc:v_kzmax_w
-	SetVariable setvar_show_wid,pos={120.00,480.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_wid,pos={120.00,480.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_wid,value= _STR:"wid.",noedit= 1
-	SetVariable setvar_kxwid,pos={122.00,497.00},size={25.00,18.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kxwid,pos={122.00,497.00},size={25.00,14.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kxwid,limits={-inf,inf,0},value= root:K_ARPES:misc:v_kxwid_w
-	SetVariable setvar_kywid,pos={122.00,519.00},size={25.00,18.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kywid,pos={122.00,519.00},size={25.00,14.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kywid,limits={-inf,inf,0},value= root:K_ARPES:misc:v_kywid_w
-	SetVariable setvar_kzwid,pos={122.00,540.00},size={25.00,18.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
+	SetVariable setvar_kzwid,pos={122.00,540.00},size={25.00,14.00},bodyWidth=25,proc=K_SetVarProc_SetAxix_w,title=" "
 	SetVariable setvar_kzwid,limits={-inf,inf,0},value= root:K_ARPES:misc:v_kzwid_w
-	SetVariable setvar_show_fix,pos={149.00,480.00},size={40.00,18.00},frame=0
+	SetVariable setvar_show_fix,pos={149.00,480.00},size={40.00,14.00},frame=0
 	SetVariable setvar_show_fix,value= _STR:"fix.",noedit= 1
-	CheckBox check_fixkx,pos={152.00,499.00},size={14.00,14.00},proc=K_CheckProc_fixkz,title=""
+	CheckBox check_fixkx,pos={152.00,499.00},size={15.00,16.00},proc=K_CheckProc_fixkz,title=""
 	CheckBox check_fixkx,variable= root:K_ARPES:misc:v_kxfixed
-	CheckBox check_fixky,pos={152.00,521.00},size={14.00,14.00},proc=K_CheckProc_fixkz,title=""
+	CheckBox check_fixky,pos={152.00,521.00},size={15.00,16.00},proc=K_CheckProc_fixkz,title=""
 	CheckBox check_fixky,variable= root:K_ARPES:misc:v_kyfixed
-	CheckBox check_fixkz,pos={152.00,542.00},size={14.00,14.00},proc=K_CheckProc_fixkz,title=""
+	CheckBox check_fixkz,pos={152.00,542.00},size={15.00,16.00},proc=K_CheckProc_fixkz,title=""
 	CheckBox check_fixkz,variable= root:K_ARPES:misc:v_kzfixed
 	Button button_select_wave,pos={110.00,444.00},size={153.00,20.00},disable=3,proc=K_ButtonProc_select_wave,title=""
-	CheckBox check_new,pos={185.00,519.00},size={40.00,15.00},proc=K_CheckProc_app,title="\\f01New"
+	CheckBox check_new,pos={185.00,519.00},size={36.00,16.00},proc=K_CheckProc_app,title="\\f01New"
 	CheckBox check_new,variable= root:K_ARPES:misc:v_app
-	CheckBox check_map,pos={185.00,538.00},size={51.00,15.00},proc=K_CheckProc_map,title="\\f01Sweep"
+	CheckBox check_map,pos={185.00,538.00},size={44.00,16.00},proc=K_CheckProc_map,title="\\f01Sweep"
 	CheckBox check_map,variable= root:K_ARPES:misc:v_map
 	Button button_init_window,pos={24.00,571.00},size={100.00,20.00},proc=K_ButtonProc_make_window,title="Init. window"
-	SetVariable setvar_show_ARPES_data,pos={35.00,445.00},size={70.00,18.00},disable=3
+	SetVariable setvar_show_ARPES_data,pos={35.00,445.00},size={70.00,14.00},disable=3
 	SetVariable setvar_show_ARPES_data,frame=0,value= _STR:"ARPES data :",noedit= 1
-	SetVariable setvar_kconv_ef,pos={35.00,467.00},size={101.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef,title="Ekin of EF :"
+	SetVariable setvar_kconv_ef,pos={44.00,467.00},size={92.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef,title="Ekin of EF :"
 	SetVariable setvar_kconv_ef,limits={-inf,inf,0},value= root:K_ARPES:global:v_EF
-	SetVariable setvar_kconv_ek,pos={23.00,487.00},size={112.00,18.00},bodyWidth=40,disable=3,title="Ekin of data :"
+	SetVariable setvar_kconv_ek,pos={34.00,487.00},size={101.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="Ekin of data :"
 	SetVariable setvar_kconv_ek,limits={-inf,inf,0},value= root:K_ARPES:global:v_ek
-	SetVariable setvar_kconv_ef_data,pos={33.00,491.00},size={102.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef_data,title="EF of data :"
+	SetVariable setvar_kconv_ef_data,pos={42.00,491.00},size={93.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_ef_data,title="EF of data :"
 	SetVariable setvar_kconv_ef_data,limits={-inf,inf,0},value= root:K_ARPES:global:v_EF_data
-	SetVariable setvar_kconv_eofs,pos={15.00,514.00},size={119.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_eofs,title="Energy offset :"
+	SetVariable setvar_kconv_eofs,pos={27.00,514.00},size={107.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_eofs,title="Energy offset :"
 	SetVariable setvar_kconv_eofs,limits={-inf,inf,0},value= root:K_ARPES:global:v_eofs
-	PopupMenu popup_ydim,pos={174.00,469.00},size={84.00,19.00},disable=3,proc=K_PopMenuProc_img,title="Y dim: "
+	PopupMenu popup_ydim,pos={174.00,469.00},size={89.00,23.00},disable=3,proc=K_PopMenuProc_img,title="Y dim: "
 	PopupMenu popup_ydim,mode=1,popvalue="Eng.",value= #"\"Eng.;Map.\""
-	CheckBox check_kconv_vol,pos={48.00,541.00},size={71.00,15.00},disable=3,proc=K_CheckProc_kconv_vol,title="Map to 3D"
+	CheckBox check_kconv_vol,pos={48.00,541.00},size={62.00,16.00},disable=3,proc=K_CheckProc_kconv_vol,title="Map to 3D"
 	CheckBox check_kconv_vol,variable= root:K_ARPES:global:v_kconv_vol
-	SetVariable setvar_kconv_en_str,pos={184.00,466.00},size={56.00,18.00},disable=3,title="Energy :"
+	SetVariable setvar_kconv_en_str,pos={184.00,466.00},size={56.00,14.00},disable=3,title="Energy :"
 	SetVariable setvar_kconv_en_str,frame=0
 	SetVariable setvar_kconv_en_str,limits={-inf,inf,0},value= _STR:"",noedit= 1
-	SetVariable setvar_kconv_en,pos={231.00,467.00},size={40.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title=" "
+	SetVariable setvar_kconv_en,pos={231.00,467.00},size={40.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title=" "
+	SetVariable setvar_kconv_en,valueBackColor=(65535,32768,32768)
 	SetVariable setvar_kconv_en,limits={-inf,inf,0},value= root:K_ARPES:global:v_kconv_en
-	SetVariable setvar_kconv_en_s,pos={196.00,484.00},size={74.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="Start :"
+	SetVariable setvar_kconv_en_s,pos={200.00,484.00},size={70.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="Start :"
 	SetVariable setvar_kconv_en_s,limits={-inf,inf,0},value= root:K_ARPES:global:v_e_s
-	SetVariable setvar_kconv_en_e,pos={200.00,504.00},size={70.00,18.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="End :"
+	SetVariable setvar_kconv_en_e,pos={204.00,504.00},size={66.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_en_r,title="End :"
 	SetVariable setvar_kconv_en_e,limits={-inf,inf,0},value= root:K_ARPES:global:v_e_e
-	SetVariable setvar_kconv_kxn,pos={172.00,523.00},size={98.00,18.00},bodyWidth=40,disable=3,title="kx points :"
+	SetVariable setvar_kconv_kxn,pos={179.00,523.00},size={91.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="kx points :"
 	SetVariable setvar_kconv_kxn,limits={2,inf,0},value= root:K_ARPES:global:v_kx_n
-	SetVariable setvar_kconv_kyn,pos={172.00,541.00},size={98.00,18.00},bodyWidth=40,disable=3,title="ky points :"
+	SetVariable setvar_kconv_kyn,pos={180.00,541.00},size={90.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="ky points :"
 	SetVariable setvar_kconv_kyn,limits={2,inf,0},value= root:K_ARPES:global:v_ky_n
-	SetVariable setvar_outr,pos={15.00,561.00},size={156.00,18.00},bodyWidth=40,disable=3,title="Fill out of range with "
+	SetVariable setvar_outr,pos={34.00,561.00},size={137.00,14.00},bodyWidth=40,disable=3,proc=K_SetVarProc_kconv_write_ktw,title="Fill out of range with "
 	SetVariable setvar_outr,limits={-inf,inf,0},value= root:K_ARPES:global:v_outr
 	Button button_go,pos={176.00,561.00},size={100.00,28.00},proc=K_ButtonProc_go,title="\\Zr200\\f01PLOT"
 	Button button_init,pos={76.00,612.00},size={150.00,20.00},proc=K_ButtonProc_init,title="Initialize K_ARPES"
 	Button button_init,fColor=(65535,16385,16385)
 	Button button_yz,pos={218.00,477.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
-	Button button_yz,fColor=(0,65535,65535)
 	Button button_xy,pos={235.00,477.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
 	Button button_xy,fColor=(0,65535,65535)
 	Button button_xz,pos={235.00,494.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
-	Button button_xz,fColor=(0,65535,65535)
 	Button button_m_zero,pos={25.00,132.00},size={50.00,20.00},proc=K_ButtonProc_m_zero,title="Zero"
 	
 	string nf=GetDataFolder(1)
@@ -4868,11 +4866,6 @@ Function K_ButtonProc_amap(ba) : ButtonControl
 	return 0
 End
 
-
-
-
-
-
 Function K_set_amapval(val)
 	variable val
 	string nf=GetDataFolder(1)
@@ -4895,7 +4888,9 @@ Function K_set_amapval(val)
 		
 		SetVariable setvar_alp disable=0
 		SetVariable setvar_bet disable=0
-		CheckBox check_map disable=0
+		if(kconv==0)
+			CheckBox check_map disable=0
+		endif
 		Button button_find disable=0
 	else
 		DoWindow/F K_ARPES_p
@@ -5102,8 +5097,17 @@ Function K_show_targwave()
 	string targ=s_kconv_target
 	K_Set_Status(0,"")
 	variable ng=1
+	string targws="kconv_target_waves"
 	if(Exists(targ)==1)
 		wave tw=$targ
+		SetDataFolder root:K_ARPES:global
+		if(!WaveExists($targws))
+			make/T/N=(0,10) $targws
+		endif
+		wave/T targw=$targws
+		
+		variable tex=K_ktw_search(targ)
+		
 		DoWindow/F K_ARPES_p
 		Button button_select_wave title="\\JL"+targ
 		SetVariable setvar_kconv_eofs disable=0
@@ -5117,17 +5121,26 @@ Function K_show_targwave()
 			apw[2]=DimOffset(tw,2)+DimDelta(tw,2)*(DimSize(tw,2)-1)
 			apw[3]=DimSize(tw,2)
 			
-			SetDataFolder root:K_ARPES:global
-			variable/g v_kconv_vol=0
-			variable/g v_e_s=DimOffset(tw,0)
-			variable/g v_e_st=DimDelta(tw,0)
-			variable/g v_e_n=DimSize(tw,0)
-			variable/g v_e_e=v_e_s+v_e_st*(v_e_n-1)
-			
-			variable/g v_kconv_img=0
-			
 			K_kconv_panel_targw_eofs(targ)
 			K_kconv_check_enrs_panel()
+			
+			SetDataFolder root:K_ARPES:global
+			variable/g v_kconv_vol=0
+			K_write_ktw()
+			tex=K_ktw_search(targ)
+			if(tex<0)
+				variable/g v_e_s=DimOffset(tw,0)
+				variable/g v_e_st=DimDelta(tw,0)
+				variable/g v_e_n=DimSize(tw,0)
+				variable/g v_e_e=v_e_s+v_e_st*(v_e_n-1)
+			else
+				variable/g v_e_s=str2num(targw[tex][5])
+				variable/g v_e_st=str2num(targw[tex][6])
+				variable/g v_e_n=DimSize(tw,0)
+				variable/g v_e_e=v_e_s+v_e_st*(v_e_n-1)
+			endif
+			
+			variable/g v_kconv_img=0
 			
 			DoWindow/F K_ARPES_p
 			CheckBox check_kconv_vol disable=0
@@ -5167,6 +5180,11 @@ Function K_show_targwave()
 			K_kconv_panel_targw_eofs(targ)
 			ng=0
 		endif
+		SetDataFolder root:K_ARPES:global
+		K_write_ktw()
+		tex=K_ktw_search(targ)
+		variable/g v_kx_n=str2num(targw[tex][8])
+		variable/g v_ky_n=str2num(targw[tex][9])
 	endif
 	if(ng==1)
 		DoWindow/F K_ARPES_p
@@ -5190,22 +5208,32 @@ Function K_kconv_panel_targw_eofs(tws)
 	wave tw=$tws
 	string nf=GetDataFolder(1)
 	SetDataFolder root:K_ARPES:global
-	if(DimOffset(tw,0)<0)
-		variable/g v_f_ef=0
-		nvar hn=root:K_ARPES:misc:v_hn
-		nvar W=root:K_ARPES:misc:v_W
-		variable/g v_EF=hn-W
-		variable/g v_eofs=v_EF
-		variable/g v_EF_data=0
-		variable/g v_kconv_en=0
+	wave/t ktw=$("kconv_target_waves")
+	variable tex=K_ktw_search(tws)
+	
+	if(tex<0)
+		if(DimOffset(tw,0)<0)
+			variable/g v_f_ef=0
+			nvar hn=root:K_ARPES:misc:v_hn
+			nvar W=root:K_ARPES:misc:v_W
+			variable/g v_EF=hn-W
+			variable/g v_eofs=v_EF
+			variable/g v_EF_data=0
+			variable/g v_kconv_en=0
+		else
+			variable/g v_f_ef=1
+			nvar hn=root:K_ARPES:misc:v_hn
+			nvar W=root:K_ARPES:misc:v_w
+			variable/g v_EF=hn-W
+			variable/g v_eofs=0
+			variable/g v_EF_data=v_EF
+			variable/g v_kconv_en=v_EF_data
+		endif
 	else
-		variable/g v_f_ef=1
-		nvar hn=root:K_ARPES:misc:v_hn
-		nvar W=root:K_ARPES:misc:v_w
-		variable/g v_EF=hn-W
-		variable/g v_eofs=0
-		variable/g v_EF_data=v_EF
-		variable/g v_kconv_en=v_EF_data
+			variable/g v_EF=str2num(ktw[tex][1])
+			variable/g v_eofs=str2num(ktw[tex][4])
+			variable/g v_EF_data=str2num(ktw[tex][2])
+			variable/g v_kconv_en=str2num(ktw[tex][7])
 	endif
 	SetDataFolder $nf
 End
@@ -5979,35 +6007,7 @@ Function K_PopMenuProc_img(pa) : PopupMenuControl
 		case 2: // mouse up
 			Variable popNum = pa.popNum
 			String popStr = pa.popStr
-			string nf=GetDataFolder(1)
-			nvar hn=root:K_ARPES:misc:v_hn
-			nvar W=root:K_ARPES:misc:v_W
-			SetDataFolder root:K_ARPES:global
-			variable/g v_kconv_img=popNum
-			string/g s_kconv_target
-			string targ=s_kconv_target
-			
-			DoWindow/F K_ARPES_p
-			if(popNum==1)
-				SetVariable setvar_kconv_kxn disable=0,title="k points :"
-				SetVariable setvar_kconv_kyn disable=3
-				SetVariable setvar_kconv_ef_data disable=0
-				SetVariable setvar_kconv_ek disable=3
-				SetVariable setvar_kconv_eofs disable=0
-				
-				K_kconv_panel_targw_eofs(targ)
-				
-			elseif(popNum==2)
-				SetVariable setvar_kconv_kxn disable=0,title="kx points :"
-				SetVariable setvar_kconv_kyn disable=0
-				SetVariable setvar_kconv_ef disable=0
-				SetVariable setvar_kconv_ef_data disable=3
-				SetVariable setvar_kconv_eofs disable=3
-				SetVariable setvar_kconv_ek disable=0
-				variable/g v_EF=hn-W
-				variable/g v_ek=hn-W
-			endif
-			SetDataFolder $nf
+			K_kconv_2D_img(popNum)
 			break
 		case -1: // control being killed
 			break
@@ -6016,6 +6016,45 @@ Function K_PopMenuProc_img(pa) : PopupMenuControl
 	return 0
 End
 
+Function K_kconv_2D_img(popNum)
+	variable popNum
+	string nf=GetDataFolder(1)
+	nvar hn=root:K_ARPES:misc:v_hn
+	nvar W=root:K_ARPES:misc:v_W
+	SetDataFolder root:K_ARPES:global
+	variable/g v_kconv_img=popNum
+	string/g s_kconv_target
+	string targ=s_kconv_target
+	
+	DoWindow/F K_ARPES_p
+	if(popNum==1)
+		SetVariable setvar_kconv_kxn disable=0,title="k points :"
+		SetVariable setvar_kconv_kyn disable=3
+		SetVariable setvar_kconv_ef_data disable=0
+		SetVariable setvar_kconv_ek disable=3
+		SetVariable setvar_kconv_eofs disable=0
+		
+		K_kconv_panel_targw_eofs(targ)
+		
+	elseif(popNum==2)
+		SetVariable setvar_kconv_kxn disable=0,title="kx points :"
+		SetVariable setvar_kconv_kyn disable=0
+		SetVariable setvar_kconv_ef disable=0
+		SetVariable setvar_kconv_ef_data disable=3
+		SetVariable setvar_kconv_eofs disable=3
+		SetVariable setvar_kconv_ek disable=0
+		variable tex=K_ktw_search(targ)
+		wave/T ktw=$("kconv_target_waves")
+		if(tex<0)
+			variable/g v_EF=hn-W
+			variable/g v_ek=hn-W
+		else
+			variable/g v_EF=str2num(ktw[tex][1])
+			variable/g v_ek=str2num(ktw[tex][3])
+		endif
+	endif
+	SetDataFolder $nf
+End
 
 Function K_ButtonProc_go(ba) : ButtonControl
 	STRUCT WMButtonAction &ba
@@ -6105,51 +6144,8 @@ Function K_ButtonProc_go(ba) : ButtonControl
 End
 
 
-Function K_SetVarProc_kconv_eofs(sva) : SetVariableControl
-	STRUCT WMSetVariableAction &sva
-
-	switch( sva.eventCode )
-		case 1: // mouse up
-		case 2: // Enter key
-		case 3: // Live update
-			Variable dval = sva.dval
-			String sval = sva.sval
-			string nf=GetDataFolder(1)
-			SetDataFolder root:K_ARPES:global
-			variable/g v_EF
-			variable/g v_EF_data=v_EF-dval
-			SetDataFolder $nf
-			break
-		case -1: // control being killed
-			break
-	endswitch
-
-	return 0
-End
 
 
-Function K_SetVarProc_kconv_ef_data(sva) : SetVariableControl
-	STRUCT WMSetVariableAction &sva
-
-	switch( sva.eventCode )
-		case 1: // mouse up
-		case 2: // Enter key
-		case 3: // Live update
-			Variable dval = sva.dval
-			String sval = sva.sval
-			string nf=GetDataFolder(1)
-			SetDataFolder root:K_ARPES:global
-			variable/g v_EF
-			variable/g v_eofs=v_EF-dval
-			variable/g v_kconv_en=dval
-			SetDataFolder $nf
-			break
-		case -1: // control being killed
-			break
-	endswitch
-
-	return 0
-End
 
 
 Function K_SetVarProc_kconv_ef(sva) : SetVariableControl
@@ -6169,6 +6165,7 @@ Function K_SetVarProc_kconv_ef(sva) : SetVariableControl
 			variable/g v_eofs
 			variable/g v_EF_data=dval-v_eofs
 			SetDataFolder $nf
+			K_write_ktw()
 			break
 		case -1: // control being killed
 			break
@@ -6177,23 +6174,6 @@ Function K_SetVarProc_kconv_ef(sva) : SetVariableControl
 	return 0
 End
 
-Function K_SetVarProc_kconv_en_r(sva) : SetVariableControl
-	STRUCT WMSetVariableAction &sva
-
-	switch( sva.eventCode )
-		case 1: // mouse up
-		case 2: // Enter key
-		case 3: // Live update
-			Variable dval = sva.dval
-			String sval = sva.sval
-			K_kconv_check_enrs_panel()
-			break
-		case -1: // control being killed
-			break
-	endswitch
-
-	return 0
-End
 
 Function K_pm_init()
 	NewDataFolder/O/S root:K_ARPES:pm_panel
@@ -6496,4 +6476,151 @@ Function K_ButtonProc_m_zero(ba) : ButtonControl
 	endswitch
 
 	return 0
+End
+
+Function K_write_ktw()
+	string nf=GetDataFolder(1)
+	
+	SetDataFolder root:K_ARPES:global
+	wave/T ktw=$("kconv_target_waves")
+	svar targ=s_kconv_target
+	nvar ef=v_EF
+	nvar ef_data=v_EF_data
+	nvar eofs=v_eofs
+	nvar e_e=v_e_e
+	nvar e_st=v_e_st
+	nvar e_s=v_e_s
+	nvar kx_n=v_kx_n
+	nvar ky_n=v_ky_n
+	nvar outr=v_outr
+	nvar ek=v_ek
+	nvar kconv_en=v_kconv_en
+	
+	variable tex=K_ktw_search(targ)
+	
+	if(tex<0)
+		tex=DimSize(ktw,0)
+		InsertPoints tex,1,ktw
+		ktw[tex][0]=targ
+	endif
+	
+	ktw[tex][1]=num2str(ef)
+	ktw[tex][2]=num2str(ef_data)
+	ktw[tex][3]=num2str(ek)
+	ktw[tex][4]=num2str(eofs)
+	ktw[tex][5]=num2str(e_s)
+	ktw[tex][6]=num2str(e_st)
+	ktw[tex][7]=num2str(kconv_en)
+	ktw[tex][8]=num2str(kx_n)
+	ktw[tex][9]=num2str(ky_n)
+	
+	
+	SetDataFolder $nf
+End
+
+Function K_SetVarProc_kconv_eofs(sva) : SetVariableControl
+	STRUCT WMSetVariableAction &sva
+
+	switch( sva.eventCode )
+		case 1: // mouse up
+		case 2: // Enter key
+		case 3: // Live update
+			Variable dval = sva.dval
+			String sval = sva.sval
+			string nf=GetDataFolder(1)
+			SetDataFolder root:K_ARPES:global
+			variable/g v_EF
+			variable/g v_EF_data=v_EF-dval
+			SetDataFolder $nf
+			K_write_ktw()
+			break
+		case -1: // control being killed
+			break
+	endswitch
+
+	return 0
+End
+
+Function K_SetVarProc_kconv_ef_data(sva) : SetVariableControl
+	STRUCT WMSetVariableAction &sva
+
+	switch( sva.eventCode )
+		case 1: // mouse up
+		case 2: // Enter key
+		case 3: // Live update
+			Variable dval = sva.dval
+			String sval = sva.sval
+			string nf=GetDataFolder(1)
+			SetDataFolder root:K_ARPES:global
+			variable/g v_EF
+			variable/g v_eofs=v_EF-dval
+			variable/g v_kconv_en=dval
+			SetDataFolder $nf
+			K_write_ktw()
+			break
+		case -1: // control being killed
+			break
+	endswitch
+
+	return 0
+End
+
+Function K_SetVarProc_kconv_en_r(sva) : SetVariableControl
+	STRUCT WMSetVariableAction &sva
+
+	switch( sva.eventCode )
+		case 1: // mouse up
+		case 2: // Enter key
+		case 3: // Live update
+			Variable dval = sva.dval
+			String sval = sva.sval
+			K_kconv_check_enrs_panel()
+			K_write_ktw()
+			break
+		case -1: // control being killed
+			break
+	endswitch
+
+	return 0
+End
+
+Function K_SetVarProc_kconv_write_ktw(sva) : SetVariableControl
+	STRUCT WMSetVariableAction &sva
+
+	switch( sva.eventCode )
+		case 1: // mouse up
+		case 2: // Enter key
+		case 3: // Live update
+			Variable dval = sva.dval
+			String sval = sva.sval
+			K_write_ktw()
+			break
+		case -1: // control being killed
+			break
+	endswitch
+
+	return 0
+End
+
+
+Static Function K_ktw_search(targ)
+	string targ
+	string nf=GetDataFolder(1)
+	SetDataFolder root:K_ARPES:global
+	variable i,tex=-1
+	if(WaveExists($("kconv_target_waves")))
+		wave/T ktw=$("kconv_target_waves")
+		for(i=0;i<DimSize(ktw,0);i+=1)
+			if(StringMatch(ktw[i][0], targ))
+				tex=i
+			endif
+		endfor
+		if(tex<0)
+			tex=-1
+		endif
+	else
+		tex=-1
+	endif
+	SetDataFolder $nf
+	return tex
 End
