@@ -6584,7 +6584,7 @@ End
 
 Function K_ev2ai(ev)
 	variable ev
-	variable hc=1.23984193e4
+	variable hc=1.23984193e4 // [ev*AA]
 	variable ai=ev/hc
 	return ai
 End
