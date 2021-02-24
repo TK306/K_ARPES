@@ -372,7 +372,7 @@ Macro K_ARPES_start()
 		variable/g v_ky_n=100
 		variable/g v_kconv_vol=0
 		variable/g v_kconv_en=0
-		variable/g v_outr=NaN
+		variable/g v_outr=-inf
 		string/g s_fintime=""
 		
 		K_make_window()
@@ -1256,12 +1256,12 @@ Function K_ARPES_calc_kline_calc()
 	SetDataFolder root:K_ARPES:misc
 	
 	wave vw=$("vec")
-	wave pkw=$("photon_k")
 	
 	for(th=th_s;th<th_e+th_step/2;th+=th_step)
 		variable thr=revth*th
 		
 		K_calc_emis(thr)
+		wave pkw=$("photon_k")
 		
 		kx=smh*sqrt(EK)*vw[0]-pkw[0]
 		ky=smh*sqrt(EK)*vw[1]-pkw[1]
