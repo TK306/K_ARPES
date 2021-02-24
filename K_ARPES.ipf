@@ -621,11 +621,11 @@ Window K_ARPES_p() : Panel
 	Button button_xy,fColor=(0,65535,65535)
 	Button button_xz,pos={235.00,494.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
 	Button button_m_zero,pos={25.00,132.00},size={50.00,20.00},proc=K_ButtonProc_m_zero,title="Zero"
-	SetVariable setvar_zeta,pos={69.00,227.00},size={39.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="ζ"
+	SetVariable setvar_zeta,pos={29.00,244.00},size={39.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="ζ"
 	SetVariable setvar_zeta,limits={-90,90,0},value= root:K_ARPES:misc:v_zeta
-	SetVariable setvar_eta,pos={67.00,249.00},size={41.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="η"
+	SetVariable setvar_eta,pos={72.00,244.00},size={41.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="η"
 	SetVariable setvar_eta,limits={-90,90,0},value= root:K_ARPES:misc:v_eta
-	CheckBox check_pkf,pos={42.00,241.00},size={14.00,14.00},proc=K_CheckProc_pkf,title=""
+	CheckBox check_pkf,pos={23.00,225.00},size={120.00,15.00},proc=K_CheckProc_pkf,title="Photon Momentum"
 	CheckBox check_pkf,variable= root:K_ARPES:misc:v_pkf
 EndMacro
 
@@ -831,11 +831,11 @@ Function K_refresh_panel()
 	Button button_xy,fColor=(0,65535,65535)
 	Button button_xz,pos={235.00,494.00},size={20.00,20.00},proc=K_ButtonProc_cross,title=" "
 	Button button_m_zero,pos={25.00,132.00},size={50.00,20.00},proc=K_ButtonProc_m_zero,title="Zero"
-	SetVariable setvar_zeta,pos={69.00,227.00},size={39.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="ζ"
+	SetVariable setvar_zeta,pos={29.00,244.00},size={39.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="ζ"
 	SetVariable setvar_zeta,limits={-90,90,0},value= root:K_ARPES:misc:v_zeta
-	SetVariable setvar_eta,pos={67.00,249.00},size={41.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="η"
+	SetVariable setvar_eta,pos={72.00,244.00},size={41.00,18.00},bodyWidth=30,proc=K_SetVarProc_calc,title="η"
 	SetVariable setvar_eta,limits={-90,90,0},value= root:K_ARPES:misc:v_eta
-	CheckBox check_pkf,pos={42.00,241.00},size={14.00,14.00},proc=K_CheckProc_pkf,title=""
+	CheckBox check_pkf,pos={23.00,225.00},size={120.00,15.00},proc=K_CheckProc_pkf,title="Photon Momentum"
 	CheckBox check_pkf,variable= root:K_ARPES:misc:v_pkf
 	
 	string nf=GetDataFolder(1)
