@@ -957,7 +957,10 @@ Function K_calc_emis(alp)
 	string nf=GetDataFolder(1)
 	SetDataFolder root:K_ARPES:misc
 	string vws="vec"
+	string pkws="photon_k"
 	make/O/N=3 $vws
+	make/O/N=3 $pkws
+	wave pkw=$pkws
 	variable alp_r=alp*pi/180
 	variable/g v_bet
 	variable/g v_revbet
@@ -996,26 +999,32 @@ Function K_calc_emis(alp)
 	nvar eta=v_eta
 	
 	variable pk=K_ev2ai(hn)
-	variable pkx,pky,pkz
 	
 	if(pkf)
-		pkx=pk*sin(vzeta/180*pi)/(smh*sqrt(hn-W))
-		pky=pk*sin(vzeta/180*pi)*sin(eta/180*pi)/(smh*sqrt(hn-W))
-		pkz=pk*cos(vzeta/180*pi)*cos(eta/180*pi)/(smh*sqrt(hn-W))
+		pkw[0]=pk*sin(vzeta/180*pi)
+		pkw[1]=pk*sin(vzeta/180*pi)*sin(eta/180*pi)
+		pkw[2]=pk*cos(vzeta/180*pi)*cos(eta/180*pi)
+	else
+		pkw[0]=0
+		pkw[1]=0
+		pkw[2]=0
 	endif
 	
 	SetDataFolder root:K_ARPES:misc:rot_matrix
 	wave aw=$("NML")
 	SetDataFolder root:K_ARPES:misc
 	wave vw=$vws
-	vw[0]=vx1-pkx
-	vw[1]=vy1-pky
-	vw[2]=vz1-pkz
+	vw[0]=vx1
+	vw[1]=vy1
+	vw[2]=vz1
 	wave vw=$vws
 	SetDataFolder root:K_ARPES:misc:rot_matrix
 	MatrixMultiply $("man_rot_inv"),vw
 	wave mpw=$("M_product")
 	vw=mpw
+	MatrixMultiply $("man_rot_inv"),pkw
+	wave mpw=$("M_product")
+	pkw=mpw
 	
 	Killwaves mpw
 	
@@ -1247,15 +1256,16 @@ Function K_ARPES_calc_kline_calc()
 	SetDataFolder root:K_ARPES:misc
 	
 	wave vw=$("vec")
+	wave pkw=$("photon_k")
 	
 	for(th=th_s;th<th_e+th_step/2;th+=th_step)
 		variable thr=revth*th
 		
 		K_calc_emis(thr)
 		
-		kx=smh*sqrt(EK)*vw[0]
-		ky=smh*sqrt(EK)*vw[1]
-		kz=smh*sqrt(EK*vw[2]^2+V0)
+		kx=smh*sqrt(EK)*vw[0]-pkw[0]
+		ky=smh*sqrt(EK)*vw[1]-pkw[1]
+		kz=smh*sqrt(EK*vw[2]^2+V0)-pkw[2]
 		
 		cxw[counter]=kx
 		cyw[counter]=ky
