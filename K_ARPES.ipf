@@ -5144,7 +5144,7 @@ Function K_show_targwave()
 		wave tw=$targ
 		SetDataFolder root:K_ARPES:global
 		if(!WaveExists($targws))
-			make/T/N=(0,10) $targws
+			make/T/N=(0,11) $targws
 		endif
 		wave/T targw=$targws
 		
@@ -5204,7 +5204,6 @@ Function K_show_targwave()
 			apw[2]=DimOffset(tw,1)+DimDelta(tw,1)*(DimSize(tw,1)-1)
 			apw[3]=DimSize(tw,1)
 			SetDataFolder root:K_ARPES:global
-			variable/g v_kconv_img=1
 			variable/g v_kdim2=0
 			DoWindow/F K_ARPES_p
 			CheckBox check_kconv_vol disable=3
@@ -5220,6 +5219,11 @@ Function K_show_targwave()
 			SetVariable setvar_EB disable=2
 			CheckBox check_map disable=3
 			K_kconv_panel_targw_eofs(targ)
+			SetDataFolder root:K_ARPES:global
+			K_write_ktw()
+			tex=K_ktw_search(targ)
+			wave/T ktw=$("kconv_target_waves")
+			K_kconv_2D_img(str2num(ktw[tex][10]))
 			ng=0
 		endif
 		SetDataFolder root:K_ARPES:global
@@ -5506,6 +5510,7 @@ Function K_change_panelmode(val)
 		SetVariable setvar_kconv_kxn disable=3
 		SetVariable setvar_kconv_kyn disable=3
 		SetVariable setvar_kconv_ef disable=3
+		SetVariable setvar_kconv_ek disable=3
 		SetVariable setvar_kconv_eofs disable=3
 		SetVariable setvar_kconv_ef_data disable=3
 		PopupMenu popup_ydim disable=3
@@ -6075,6 +6080,7 @@ Function K_kconv_2D_img(popNum)
 		SetVariable setvar_kconv_ef_data disable=0
 		SetVariable setvar_kconv_ek disable=3
 		SetVariable setvar_kconv_eofs disable=0
+		PopupMenu popup_ydim mode=1
 		
 		K_kconv_panel_targw_eofs(targ)
 		
@@ -6085,6 +6091,7 @@ Function K_kconv_2D_img(popNum)
 		SetVariable setvar_kconv_ef_data disable=3
 		SetVariable setvar_kconv_eofs disable=3
 		SetVariable setvar_kconv_ek disable=0
+		PopupMenu popup_ydim mode=2
 		variable tex=K_ktw_search(targ)
 		wave/T ktw=$("kconv_target_waves")
 		if(tex<0)
@@ -6095,6 +6102,7 @@ Function K_kconv_2D_img(popNum)
 			variable/g v_ek=str2num(ktw[tex][3])
 		endif
 	endif
+	K_write_ktw()
 	SetDataFolder $nf
 End
 
@@ -6523,6 +6531,9 @@ End
 Function K_write_ktw()
 	string nf=GetDataFolder(1)
 	
+	SetDataFolder root:K_ARPES:misc
+	nvar hn=v_hn
+	nvar W=v_W
 	SetDataFolder root:K_ARPES:global
 	wave/T ktw=$("kconv_target_waves")
 	svar targ=s_kconv_target
@@ -6537,6 +6548,7 @@ Function K_write_ktw()
 	nvar outr=v_outr
 	nvar ek=v_ek
 	nvar kconv_en=v_kconv_en
+	nvar img=v_kconv_img
 	
 	variable tex=K_ktw_search(targ)
 	
@@ -6544,6 +6556,10 @@ Function K_write_ktw()
 		tex=DimSize(ktw,0)
 		InsertPoints tex,1,ktw
 		ktw[tex][0]=targ
+	endif
+	
+	if(NumType(ek)==2)
+		ek=hn-W
 	endif
 	
 	ktw[tex][1]=num2str(ef)
@@ -6555,6 +6571,7 @@ Function K_write_ktw()
 	ktw[tex][7]=num2str(kconv_en)
 	ktw[tex][8]=num2str(kx_n)
 	ktw[tex][9]=num2str(ky_n)
+	ktw[tex][10]=num2str(img)
   
 	SetDataFolder $nf
 End
