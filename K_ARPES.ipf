@@ -6598,6 +6598,13 @@ Function K_SetVarProc_kconv_ef_data(sva) : SetVariableControl
 			variable/g v_kconv_en=dval
 			SetDataFolder $nf
 			K_write_ktw()
+			break
+		case -1: // control being killed
+			break
+	endswitch
+
+	return 0
+End
 
 Function K_CheckProc_pkf(cba) : CheckBoxControl
 	STRUCT WMCheckboxAction &cba
