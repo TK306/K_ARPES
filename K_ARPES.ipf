@@ -372,6 +372,7 @@ Macro K_ARPES_start()
 		variable/g v_ky_n=100
 		variable/g v_kconv_vol=0
 		variable/g v_kconv_en=0
+		variable/g v_kconv_img=1
 		variable/g v_outr=-inf
 		string/g s_fintime=""
 		
